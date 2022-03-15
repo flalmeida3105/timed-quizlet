@@ -5,7 +5,9 @@
 :root {
     --primary: #ededed;
     --secondary: #497980;
-    --tertiary: rgb(192, 246, 253);
+    --tertiary: #210347;
+    --black: black;
+    --pink: rgb(160, 49, 160);
     --grey: #333;
     font-size: 62.5%;
 }
@@ -27,6 +29,7 @@ header {
     border-bottom: 5px solid var(--secondary);
 }
 
+/* START - Defines styles for main content of the page */
 .page-content, .page-wrapper {
     display: flex;
     align-items: flex-start;
@@ -34,6 +37,7 @@ header {
     justify-content: space-evenly;
     border: #333 4px solid;
     height: 500px;
+    padding: 0 10px;
 }
 #page-score {
     flex: 1;
@@ -45,8 +49,40 @@ header {
     justify-content: right;
 }
 
+#page-score h2, #page-timer h2 {
+    font-size: 1.4rem;
+}
+
 #page-quizlet {
     flex: 2;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    font-size: 1.55rem;
 }
+
+/* END - Defines styles for main content of the page */
+
+/* START - Defining Buttons styles */
+
+.btn {
+  outline: none;
+  border: none;
+  display: inline-block;
+  padding: 10px 15px;
+  background: var(--tertiary);
+  font-size: 2.2rem;
+  border-radius: 12px;
+  position: relative;
+  top: -3px;
+  box-shadow: 0 3px var(--grey);
+  color: var(--primary);
+}
+
+.btn:hover {
+  box-shadow: 0 2px var(--grey);
+  background: var(--pink);
+  top: -2px;
+}
+
+/* END - Defining Buttons styles */
