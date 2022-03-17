@@ -2,12 +2,8 @@
 var startTimer = document.querySelector("#btn");
 
 // Querying the first DIV inside the section with id="page-quizlet"
-// var mainSectionEl = document.querySelector(".page-content");
 var pageDivEl = document.querySelector("#page-quizlet");
-// var swapDivEl = pageDivEl.querySelector("#page-quizlet");
 
-// console.log(mainSectionEl);
-// console.log(pageDivEl);
 
 // Set interval 
 setTimer = function(duration, display) {
@@ -36,7 +32,7 @@ setTimer = function(duration, display) {
 };
 
 
-showQuestion = function () {
+createQuestionsElements = function () {
     // Define div classes name
     var pageWrapperContent = document.createElement("div");
     pageWrapperContent.className = "page-wrapper-content"; 
@@ -46,13 +42,8 @@ showQuestion = function () {
     pageH2El.style.textAlign = "left";
     pageH2El.className = "page-welcome-txt";
     pageH2El.textContent = "Coding Quiz Challenge 222huahsuhduahushdasuhdu ashdasuhdashhdasudhsauhsau    22";
-
     pageWrapperContent.appendChild(pageH2El);
-
-    // pageDivEl.appendChild(pageWrapperContent);
-    // swapDivEl.before(pageDivEl);
     pageDivEl.parentElement.replaceChild(pageWrapperContent, pageDivEl);
-
 
     // create page buttons div
     var pageButtonWrapper = document.createElement("div");
@@ -68,20 +59,14 @@ showQuestion = function () {
 
     // creating buttons and append to pageButtons div
     for (i = 0; i < buttons.length; i++) {
-        // var newButtons = Array();
-;       var pageButtonElement = document.createElement("button");
+        var pageButtonElement = document.createElement("button");
         pageButtonElement.className = "btn-swap";
         pageButtonElement.innerHTML = buttons[i];
         pageButtonElement.id = 'btn-' + buttons[i];
         pageButtonElement.type = "click";
         pageButtonWrapper.appendChild(pageButtonElement);
         pageWrapperContent.appendChild(pageButtonWrapper);
-        // pageButtonEl += newButtons;
-        // console.log(JSON.parse(JSON.stringify(newButtons)));
     };
-
-
-
 };
 
 startQuiz = function () {
@@ -90,17 +75,10 @@ startQuiz = function () {
 
     // send values to setTimer function
     setTimer(duration, display);
-    // document.getElementById("page-quizlet").style.display = "none";
-    showQuestion();
+    createQuestionsElements();
 };
 
 startTimer.addEventListener("click", startQuiz);
-
-
-
-
-
-
 
 // End of timer related functions
 
