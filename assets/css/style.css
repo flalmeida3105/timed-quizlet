@@ -29,6 +29,10 @@ header {
     border-bottom: 5px solid var(--secondary);
 }
 
+.page-content > * {
+    border: #210347 2px solid;
+}
+
 /* START - Defines styles for main content of the page */
 .page-content, .page-wrapper {
     display: flex;
@@ -39,47 +43,82 @@ header {
     height: 500px;
     padding: 0 10px;
 }
-#page-score {
+/* #page-wrapper-content h2 {
+    display: flex;
+    align-content: flex-start;
+    justify-content: space-between;
+    padding: 10px 15px;
+} */
+
+#page-wrapper-score {
     flex: 1;
+    order: 1;
     justify-content: left;
 }
 
-#page-timer {
+#page-wrapper-timer {
     flex: 1;
+    order: 3;
     justify-content: right;
 }
 
-#page-score h2, #page-timer h2 {
+#page-wrapper-score h2, #page-wrapper-timer h2 {
     font-size: 1.4rem;
 }
 
-#page-quizlet {
+#page-wrapper-quizlet {
     flex: 2;
+    order: 2;
     align-items: center;
     justify-content: center;
     text-align: center;
     font-size: 1.55rem;
 }
 
+
+
 /* END - Defines styles for main content of the page */
 
 /* START - Defining Buttons styles */
 
 .btn {
-  outline: none;
-  border: none;
-  display: inline-block;
-  padding: 10px 15px;
-  background: var(--tertiary);
-  font-size: 2.2rem;
-  border-radius: 12px;
-  position: relative;
-  top: -3px;
-  box-shadow: 0 3px var(--grey);
-  color: var(--primary);
+    outline: none;
+    border: none;
+    display: inline-block;
+    padding: 10px 15px;
+    background: var(--tertiary);
+    font-size: 2.2rem;
+    border-radius: 12px;
+    position: relative;
+    top: -3px;
+    box-shadow: 0 3px var(--grey);
+    color: var(--primary);
+    }
+
+.btn-swap {
+    outline: none;
+    border: none;
+    display: block;
+    padding: 10px 15px;
+    background: var(--tertiary);
+    font-size: 2.2rem;
+    border-radius: 12px;
+    position: relative;
+    top: -3px;
+    box-shadow: 0 3px var(--grey);
+    color: var(--primary);
+    /* border: green 10px solid; */
 }
 
-.btn:hover {
+.btn-swap, .btn-swap h2 {
+    /* display: flex;
+    justify-content: left; */
+    padding: 10px 15px;
+    margin-bottom: 20px;
+}
+
+
+.btn:hover, .btn-swap:hover {
   box-shadow: 0 2px var(--grey);
   background: var(--pink);
   top: -2px;
