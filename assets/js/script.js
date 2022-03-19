@@ -124,7 +124,7 @@ function checkAnswer(questionElement) {
                 total += value;
                 console.log("correct answer")
             } else {
-                console.log("wrong answer animal")
+                console.log("wrong answer")
             }
 
             createNextQuestion();
@@ -190,3 +190,4 @@ startTimer.addEventListener("click", startQuiz);
 
 
 // End of timer related functions
+ 
