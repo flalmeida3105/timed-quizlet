@@ -43,12 +43,15 @@ header {
     height: 500px;
     padding: 0 10px;
 }
-/* #page-wrapper-content h2 {
+.page-wrapper-content-swap {
     display: flex;
-    align-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
     justify-content: space-between;
     padding: 10px 15px;
-} */
+    width: 100%;
+    /* border: #210347 2px solid; */
+}
 
 #page-wrapper-score {
     flex: 1;
