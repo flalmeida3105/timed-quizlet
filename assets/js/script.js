@@ -3,9 +3,40 @@ var startTimer = document.querySelector("#btn");
 // Querying the first DIV inside the section with id="page-quizlet"
 var pageDivElement = document.querySelector("#page-quizlet");
 
+var questionList = [
+    {
+        question: "What is your name?",
+        button1: "x",
+        button2: "y",
+        button3: "z",
+        button4: "k",
+        correctAnswer: "k"
+    },
+    {
+        question: "What is your city?",
+        button1: "a",
+        button2: "b",
+        button3: "c",
+        button4: "d",
+        correctAnswer: "b"
+    }
+];
+
+var total = 0;
+const value = 10;
+
+// var h2TagContent;
+// var button1;
+// var button2;
+// var button3;
+// var button4; 
+
+var currentQuestionIndex = 0;
+var pageWrapperContent = null;
+
 
 // Set interval 
-setTimer = function(duration, display) {
+function setTimer (duration, display) {
     var timer = duration, minutes, seconds;
     var interval = setInterval(function() {
         minutes = parseInt(timer / 60);
@@ -30,13 +61,15 @@ setTimer = function(duration, display) {
     }, 1000);
 };
 
-clearDivElement = function () {
+function clearDivElement() {
     // pageDivElement.remove();
     createQuestionsElements();
 }
 
-createQuestionsElements = function () {
-//#region vars 
+function createQuestionsElements() {
+    //#region vars 
+    
+
     // create and define div classes name
     var pageWrapperContent = document.createElement("div");
     pageWrapperContent.className = "page-wrapper-content-swap"; 
@@ -48,9 +81,9 @@ createQuestionsElements = function () {
     pageH2TagElement.className = "page-welcome-txt";
     pageWrapperContent.appendChild(pageH2TagElement);
 
-//#endregion vars
+    //#endregion vars
 
-//#region buttons
+    //#region buttons
     // create page buttons
     var pageButtonWrapper = document.createElement("div");
     pageButtonWrapper.className = "btn-wrapper";
@@ -70,78 +103,90 @@ createQuestionsElements = function () {
         pageButtonElement.innerHTML = buttons[i];
         pageButtonElement.id = 'btn-' + buttons[i];
         pageButtonElement.type = "click";
-        pageButtonWrapper.appendChild(pageButtonElement);
+        pageButtonElement.addEventListener("click", checkAnswer, pageButtonElement);
+        pageButtonWrapper.appendChild(pageButtonElement);  
         pageWrapperContent.appendChild(pageButtonWrapper);
     };
-//#endregion buttons
+    //#endregion buttons
 
     pageDivElement.parentElement.replaceChild(pageWrapperContent, pageDivElement);
-
-
-    // console.log("inside create elements" + pageWrapperContent);
-    // return pageWrapperContent;
-    
-    createRandomQuestions(pageWrapperContent);
+   
+    return pageWrapperContent;
 };
 
+function checkAnswer(questionElement) {
+    if (pageWrapperContent) {
+        console.log("ANSWER", currentQuestionIndex, questionList.length)
 
-createRandomQuestions = function (pageWrapperContent, question1, question2) {
-    var content = pageWrapperContent;
-    // var obj =JSON.parse(content);
-    console.log(content);
-    // debugger;
-    //#region questions
-    var questionsObject = {
-        question1: "What is your name?",
-        q1Button1: "x",
-        q1Button2: "y",
-        q1Button3: "z",
-        q1Button4: "k",
+        if (currentQuestionIndex < questionList.length) {
+            var currentQuestion = questionList[currentQuestionIndex]
+            if (currentQuestion.correctAnswer == questionElement.target.innerHTML) {
+                total += value;
+                console.log("correct answer")
+            } else {
+                console.log("wrong answer animal")
+            }
 
-        question2: "What is your city?",
-        q2Button1: "a",
-        q2Button2: "b",
-        q2Button3: "c",
-        q2Button4: "d",
-    };
-    console.log(questionsObject);
-//#endregion questions
+            createNextQuestion();
+        } 
+    }
+}
 
-    // console.log(content.querySelector("h2"));
-    var h2TagContent = content.querySelector("h2");
-    var button1 = content.querySelector("#btn-answer1");
-    var button2 = content.querySelector("#btn-answer2");
-    var button3 = content.querySelector("#btn-answer3");
-    var button4 = content.querySelector("#btn-answer4");
-    // console.log(h2TagContent);
-    console.log(button1);
 
-    // // console.log(h2TagContent);
-    // if (h2TagContent == true) {
-    //         console.log(h2TagContent);
-            h2TagContent.textContent = "Test 1";
-            button1.innerHTML = "test1";
-            button2.innerHTML = "test2";
-            button3.innerHTML = "test3";
-            button4.innerHTML = "test4";
-    // }
+function createNextQuestion(increment = true) {
+   
+
+    if (pageWrapperContent) {
     
-    // console.log("Show the content from createQuestionsElements function " + content);
+        var content = pageWrapperContent;
 
+            if (increment) {
+                currentQuestionIndex++;
+            }
+
+            if (currentQuestionIndex < questionList.length) {
+                var currentQuestion = questionList[currentQuestionIndex];
+                
+
+                var h2TagContent = content.querySelector("h2");
+                var button1 = content.querySelector("#btn-answer1");
+                var button2 = content.querySelector("#btn-answer2");
+                var button3 = content.querySelector("#btn-answer3");
+                var button4 = content.querySelector("#btn-answer4");
+                
+            
+                h2TagContent.textContent = currentQuestion.question;
+                button1.innerHTML = currentQuestion.button1;
+                button2.innerHTML = currentQuestion.button2;
+                button3.innerHTML = currentQuestion.button3;
+                button4.innerHTML = currentQuestion.button4;
+            } else {
+                console.log("total", total)
+            }
+       
+
+    }
+
+}; //#endregion
+
+function timeoutQuestion () {
+    timeout = setTimeout(createNextQuestion, 10000);
+    createNextQuestion(timeout);
 };
 
-startQuiz = function () {
+function startQuiz () {
     var duration = 4 * 1;
     display = document.querySelector('#timer-count');
+    
+    pageWrapperContent = createQuestionsElements();
 
     // send values to setTimer function
     setTimer(duration, display);
-    clearDivElement();
-    // createQuestionsElements();
+    createNextQuestion(false);
 };
 
 startTimer.addEventListener("click", startQuiz);
 
+
+
 // End of timer related functions
-
-
