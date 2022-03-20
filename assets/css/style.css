@@ -96,6 +96,7 @@ header {
     top: -3px;
     box-shadow: 0 3px var(--grey);
     color: var(--primary);
+    width: 30%;
     }
 
 .btn-swap {
@@ -104,12 +105,14 @@ header {
     display: block;
     padding: 10px 15px;
     background: var(--tertiary);
-    font-size: 2.2rem;
+    font-size: 2 rem;
     border-radius: 12px;
     position: relative;
     top: -3px;
     box-shadow: 0 3px var(--grey);
     color: var(--primary);
+    text-align: left;
+    width: 100%;
     /* border: green 10px solid; */
 }
 
