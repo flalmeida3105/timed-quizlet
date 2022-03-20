@@ -89,6 +89,16 @@ header {
     font-size: 1.55rem;
 }
 
+.page-highscore-form {
+    border: #210347 2px solid;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+}
+
 
 #page-welcome-txt {
     font-size: 2rem;

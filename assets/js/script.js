@@ -8,40 +8,41 @@ var pageWrapperContent = null;
 var pageHighScore = null;
 var timer = 0;
 var pageFormElement = document.querySelector("#page-welcome-txt-btn");
+var pageHighScoreWrapper = null;
 
 var questionList = [
-    {
-        question: "Which one of the following options it's NOT a JavaScript data type?",
-        button1: "1. Number",
-        button2: "2. Stream",
-        button3: "3. Object",
-        button4: "4. Boolean",
-        correctAnswer: "2. Stream"
-    },
-    {
-        question: "What is the escape character used by JavaScript?",
-        button1: "1. Backslash",
-        button2: "2. Double Quotes",
-        button3: "3. Single Quotes",
-        button4: "4. Ampersand",
-        correctAnswer: "1. Backslash"
-    },
-    {
-        question: "Which of the following it's a valid JavaScript var declaration?",
-        button1: "1. var()",
-        button2: "2. 'var=10'",
-        button3: "3. var = 10,",
-        button4: "4. var = 10;",
-        correctAnswer: "4. var = 10;"
-    },
-    {
-        question: "What does the 'var myArray = [[[]]];' statement declare?",
-        button1: "1. An Array",
-        button2: "2. An Object Array",
-        button3: "3. An Array of Arrays",
-        button4: "4. A three-dimensional Array",
-        correctAnswer: "4. A three-dimensional Array"
-    },
+    // {
+    //     question: "Which one of the following options it's NOT a JavaScript data type?",
+    //     button1: "1. Number",
+    //     button2: "2. Stream",
+    //     button3: "3. Object",
+    //     button4: "4. Boolean",
+    //     correctAnswer: "2. Stream"
+    // },
+    // {
+    //     question: "What is the escape character used by JavaScript?",
+    //     button1: "1. Backslash",
+    //     button2: "2. Double Quotes",
+    //     button3: "3. Single Quotes",
+    //     button4: "4. Ampersand",
+    //     correctAnswer: "1. Backslash"
+    // },
+    // {
+    //     question: "Which of the following it's a valid JavaScript var declaration?",
+    //     button1: "1. var()",
+    //     button2: "2. 'var=10'",
+    //     button3: "3. var = 10,",
+    //     button4: "4. var = 10;",
+    //     correctAnswer: "4. var = 10;"
+    // },
+    // {
+    //     question: "What does the 'var myArray = [[[]]];' statement declare?",
+    //     button1: "1. An Array",
+    //     button2: "2. An Object Array",
+    //     button3: "3. An Array of Arrays",
+    //     button4: "4. A three-dimensional Array",
+    //     correctAnswer: "4. A three-dimensional Array"
+    // },
     {
         question: "Which operations below it's NOT considered a valid loop for JavaScript?",
         button1: "1. For Loop",
@@ -77,7 +78,6 @@ function setTimer (duration, display) {
             // return viewHighScores(total);
         }
     }, 1000);
-    console.log(timer);
 
     return timer;
 };
@@ -171,7 +171,7 @@ function createNextQuestion(increment = true) {
             button3.innerHTML = currentQuestion.button3;
             button4.innerHTML = currentQuestion.button4;
         } else {
-            return viewHighScores(total);
+            viewHighScores(total);
             
         } 
     };
@@ -208,59 +208,65 @@ function viewHighScores (value) {
     pageHighScoreWrapper.appendChild(pagePTagElement);
 
     // Creating the p tag element and adding it to the page-wrapper-content
+    var pageFormElement = document.createElement("form");
+    pageFormElement.style.textAlign = "left";
+    pageFormElement.className = "page-highscore-form";
+    
+   // Creating the p tag element and adding it to the page-wrapper-content
     var pagePTagElement = document.createElement("p");
     pagePTagElement.style.textAlign = "left";
     pagePTagElement.className = "page-welcome-txt";
     pagePTagElement.id = "page-welcome-txt";
     pagePTagElement.textContent = "Enter Initials:";
-    pageHighScoreButtonWrapper.appendChild(pagePTagElement);
+    pageFormElement.appendChild(pagePTagElement);
 
     // Creating the p tag element and adding it to the page-wrapper-content
-    var pageFormElement = document.createElement("input");
-    pageFormElement.style.textAlign = "left";
-    pageFormElement.className = "page-welcome-txt";
-    pageFormElement.id = "page-welcome-txt-btn";
-    pageFormElement.type = "text";
-    pageFormElement.textContent = "Enter initials:";
-    pageHighScoreButtonWrapper.appendChild(pageFormElement);
+    var pageInputElement = document.createElement("input");
+    pageInputElement.style.textAlign = "left";
+    pageInputElement.className = "page-welcome-txt";
+    pageInputElement.id = "page-welcome-input-txt";
+    pageInputElement.type = "text";
+    pageInputElement.name = "initials";
+    pageFormElement.appendChild(pageInputElement);
 
     // Creating the input field element and adding it to the page-wrapper-content
-    var pageInputElement = document.createElement("input");
-    // pageInputElement.style.textAlign = "left";
-    pageInputElement.className = "page-welcome-txt btn";
-    pageFormElement.id = "page-welcome-txt-btn";
-    pageInputElement.type = "button";
-    pageInputElement.value = "Submit";
-    pageInputElement.addEventListener("click", saveTasks, pageFormElement);
-    pageHighScoreButtonWrapper.appendChild(pageInputElement);
+    var pageBtnElement = document.createElement("input");
+    pageBtnElement.className = "page-welcome-txt btn";
+    pageBtnElement.id = "page-welcome-txt-btn";
+    pageBtnElement.type = "button";
+    pageBtnElement.value = "Submit";
+    pageBtnElement.addEventListener("click", saveTasks);
+    pageFormElement.appendChild(pageBtnElement)
+    pageHighScoreButtonWrapper.appendChild(pageFormElement);
     pageHighScoreWrapper.appendChild(pageHighScoreButtonWrapper);
-
-    // console.log("This is the page score content", pageHighScoreWrapper);
-    // console.log(pageDivElement);
 
     var pageDivElement = document.querySelector("#page-quizlet");
 
     pageDivElement.parentElement.replaceChild(pageHighScoreWrapper, pageDivElement);
 
-    console.log("This is the page score content", pageHighScoreWrapper);
-    
-
-    
-    // <input type="text" name="task-name" class="text-input" placeholder="Enter Task Name" /
-
-    return pageHighScoreWrapper;
     //#endregion create elements
-    
 };
 
 function saveTasks () {
-    console.log(pageHighScoreWrapper);
-    getContent = pageFormElement;
-    console.log(getContent);
-    localStorage.setItem("score", JSON.stringify(total));
+    // var input = value2;
+    var inputElement = document.getElementById("page-welcome-input-txt");
+    var initials = inputElement.value;
+
+    // creating object array 
+    var scoreObj = { 
+            name: initials,
+            score: total
+        }
+    var scoreJson = JSON.stringify(scoreObj);
+    localStorage.setItem("score", scoreJson);
+
+    // clearing input form
+    inputElement.value = "";
+    
 };
 
 function loadTasks () {
+    debugger;
     var savedTasks = localStorage.getItem("score");
     // console.log(savedTasks);
 
@@ -269,14 +275,22 @@ function loadTasks () {
     }
     console.log("Saved tasks found!");
     savedTasks = JSON.parse(savedTasks);
+    console.log(savedTasks);
 
     for (var i = 0; i < savedTasks.length; i++) {
-        viewHighScores(savedTasks[i]);
+        // savedTasks = JSON.stringify(saveTasks);
+        // localStorage.setItem("score", savedTasks);
+        startQuiz(savedTasks[i]);
+        // console.log(i);
+        // console.log(savedTasks[i])
     }
 
 };
 
+
 function startQuiz () {
+    loadTasks();
+
     var duration = 2 * 1;
     display = document.querySelector('#timer-count');
     
@@ -293,6 +307,8 @@ function startQuiz () {
 };
 
 startTimer.addEventListener("click", startQuiz);
+loadTasks();
+
 
 
 
