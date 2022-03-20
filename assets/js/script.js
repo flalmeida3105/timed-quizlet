@@ -7,6 +7,7 @@ var currentQuestionIndex = 0;
 var pageWrapperContent = null;
 var pageHighScore = null;
 var timer = 0;
+var pageFormElement = document.querySelector("#page-welcome-txt-btn");
 
 var questionList = [
     {
@@ -73,7 +74,7 @@ function setTimer (duration, display) {
             display.textContent = minutes + ":00";
             clearInterval(interval);
             // alert("Your timer is over! Save your results and compare with your friends");
-            return viewHighScores(total);
+            // return viewHighScores(total);
         }
     }, 1000);
     console.log(timer);
@@ -171,6 +172,7 @@ function createNextQuestion(increment = true) {
             button4.innerHTML = currentQuestion.button4;
         } else {
             return viewHighScores(total);
+            
         } 
     };
 };
@@ -182,51 +184,97 @@ function viewHighScores (value) {
     //#region create elements
 
     // create and define div classes name
-    var pageHighScore = document.createElement("div");
-    pageHighScore.className = "page-wrapper-content-swap";
+    var pageHighScoreWrapper = document.createElement("div");
+    pageHighScoreWrapper.className = "page-wrapper-content-swap";
+    pageHighScoreWrapper.id = "page-wrapper-content-swap";
+
+    // create page buttons
+    var pageHighScoreButtonWrapper = document.createElement("div");
+    pageHighScoreButtonWrapper.className = "btn-wrapper-swap";
 
     // Creating the H2 element and adding it to the page-wrapper-content
     var pageH2TagElement = document.createElement("h2");
     pageH2TagElement.style.textAlign = "left";
     pageH2TagElement.className = "page-welcome-txt";
     pageH2TagElement.textContent = "All Done!";
-    pageHighScore.appendChild(pageH2TagElement);
+    pageHighScoreWrapper.appendChild(pageH2TagElement);
 
     // Creating the p tag element and adding it to the page-wrapper-content
     var pagePTagElement = document.createElement("p");
     pagePTagElement.style.textAlign = "left";
     pagePTagElement.className = "page-welcome-txt";
+    pagePTagElement.id = "page-welcome-txt";
     pagePTagElement.textContent = "Your final score is: " + total;
-    pageHighScore.appendChild(pagePTagElement);
+    pageHighScoreWrapper.appendChild(pagePTagElement);
 
-    // Creating the input field element and adding it to the page-wrapper-content
-    var pageFormElement = document.createElement("form");
+    // Creating the p tag element and adding it to the page-wrapper-content
+    var pagePTagElement = document.createElement("p");
+    pagePTagElement.style.textAlign = "left";
+    pagePTagElement.className = "page-welcome-txt";
+    pagePTagElement.id = "page-welcome-txt";
+    pagePTagElement.textContent = "Enter Initials:";
+    pageHighScoreButtonWrapper.appendChild(pagePTagElement);
+
+    // Creating the p tag element and adding it to the page-wrapper-content
+    var pageFormElement = document.createElement("input");
     pageFormElement.style.textAlign = "left";
     pageFormElement.className = "page-welcome-txt";
+    pageFormElement.id = "page-welcome-txt-btn";
     pageFormElement.type = "text";
-    pageFormElement.name = "Enter Initials:";
-    pageFormElement.textContent = "Your final score is:";
-    pageHighScore.appendChild(pageFormElement);
+    pageFormElement.textContent = "Enter initials:";
+    pageHighScoreButtonWrapper.appendChild(pageFormElement);
 
-    console.log("This is the page score content", pageHighScore);
-    console.log(pageDivElement);
+    // Creating the input field element and adding it to the page-wrapper-content
+    var pageInputElement = document.createElement("input");
+    // pageInputElement.style.textAlign = "left";
+    pageInputElement.className = "page-welcome-txt btn";
+    pageFormElement.id = "page-welcome-txt-btn";
+    pageInputElement.type = "button";
+    pageInputElement.value = "Submit";
+    pageInputElement.addEventListener("click", saveTasks, pageFormElement);
+    pageHighScoreButtonWrapper.appendChild(pageInputElement);
+    pageHighScoreWrapper.appendChild(pageHighScoreButtonWrapper);
+
+    // console.log("This is the page score content", pageHighScoreWrapper);
+    // console.log(pageDivElement);
 
     var pageDivElement = document.querySelector("#page-quizlet");
 
-    pageDivElement.parentElement.replaceChild(pageHighScore, pageDivElement);
+    pageDivElement.parentElement.replaceChild(pageHighScoreWrapper, pageDivElement);
 
-    console.log("This is the page score content", pageHighScore);
+    console.log("This is the page score content", pageHighScoreWrapper);
     
-    console.log(pageDivElement);
 
     
     // <input type="text" name="task-name" class="text-input" placeholder="Enter Task Name" /
 
-    return pageHighScore;
+    return pageHighScoreWrapper;
     //#endregion create elements
+    
 };
 
+function saveTasks () {
+    console.log(pageHighScoreWrapper);
+    getContent = pageFormElement;
+    console.log(getContent);
+    localStorage.setItem("score", JSON.stringify(total));
+};
 
+function loadTasks () {
+    var savedTasks = localStorage.getItem("score");
+    // console.log(savedTasks);
+
+    if (!savedTasks) {
+        return false;
+    }
+    console.log("Saved tasks found!");
+    savedTasks = JSON.parse(savedTasks);
+
+    for (var i = 0; i < savedTasks.length; i++) {
+        viewHighScores(savedTasks[i]);
+    }
+
+};
 
 function startQuiz () {
     var duration = 2 * 1;

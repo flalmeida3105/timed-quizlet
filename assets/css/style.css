@@ -49,9 +49,20 @@ header {
     flex-direction: column;
     justify-content: space-between;
     padding: 10px 15px;
-    width: 100%;
+    width: 70%;
     /* border: #210347 2px solid; */
 }
+
+#page-wrapper-content-swap {
+    display: flex;
+    /* align-items: center; */
+    /* flex-direction: column; */
+    /* justify-content: space-around; */
+    padding: 10px 15px;
+    width: 70%;
+    /* border: #210347 2px solid;*/
+}
+
 
 #page-wrapper-score {
     flex: 1;
@@ -79,6 +90,15 @@ header {
 }
 
 
+#page-welcome-txt {
+    font-size: 2rem;
+}
+
+
+#page-welcome-txt-btn {
+    font-size: 1.7rem;
+}
+
 
 /* END - Defines styles for main content of the page */
 
@@ -105,7 +125,7 @@ header {
     display: block;
     padding: 10px 15px;
     background: var(--tertiary);
-    font-size: 2 rem;
+    font-size: 1.8rem;
     border-radius: 12px;
     position: relative;
     top: -3px;
@@ -129,5 +149,19 @@ header {
   background: var(--pink);
   top: -2px;
 }
+
+.btn-wrapper-swap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    position: relative;
+
+}
+
+
+
 
 /* END - Defining Buttons styles */
