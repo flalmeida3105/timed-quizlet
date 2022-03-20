@@ -6,6 +6,7 @@ const value = 10;
 var currentQuestionIndex = 0;
 var pageWrapperContent = null;
 var pageHighScore = null;
+var timer = 0;
 
 var questionList = [
     {
@@ -72,9 +73,12 @@ function setTimer (duration, display) {
             display.textContent = minutes + ":00";
             clearInterval(interval);
             // alert("Your timer is over! Save your results and compare with your friends");
-            // return viewHighScores(total);
+            return viewHighScores(total);
         }
     }, 1000);
+    console.log(timer);
+
+    return timer;
 };
 
 function createQuestionsElements() {
@@ -235,6 +239,7 @@ function startQuiz () {
 
     // send values to setTimer function
     setTimer(duration, display);
+    if (timer < 0 ) return;
     createNextQuestion(false);
     // viewHighScores(total);
 };
