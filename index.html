@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timed Quizlet</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1 class="page-title">Timed Quizlet</h1>
+    </header>
+    <main class="page-content">
+        <section class="page-wrapper" id="page-wrapper-score">
+            <h2 class="page-score-text">View high scores</h2>
+        </section>
+        <section class="page-wrapper" id="page-wrapper-quizlet">
+            <div class="page-wrapper-content" id="page-quizlet">
+                <h2 class="page-welcome-txt">Coding Quiz Challenge</h2>
+                <p>Try to answer the following code-related questions within the time limit.<br>
+                Keep in mind that incorrect answers will penalize your score/time
+                by ten seconds!</p>
+                <div class="btn-wrapper"> 
+                    <button class="btn" id="btn" type="start">Start Quiz</button>
+                </div>
+            </div>
+        </section>
+        <section class="page-wrapper" id="page-wrapper-timer">
+            <h2 class="page-timer-txt">Time: <span id="timer-count">01:00</span></h2>
+        </section>
+    </main>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>

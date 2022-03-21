@@ -1,0 +1,177 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #ededed;
+    --secondary: #497980;
+    --tertiary: #210347;
+    --black: black;
+    --pink: rgb(160, 49, 160);
+    --grey: #333;
+    font-size: 62.5%;
+}
+
+body {
+    background: #ededed;
+    color: var(--grey);
+    margin: 0;
+    padding: 5px;
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+header {
+    background: var(--primary);
+    padding: 2px 25px;
+    border-bottom: 5px solid var(--secondary);
+}
+
+.page-content > * {
+    border: #210347 2px solid;
+}
+
+/* START - Defines styles for main content of the page */
+.page-content, .page-wrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    border: #333 4px solid;
+    height: 500px;
+    padding: 0 10px;
+}
+.page-wrapper-content-swap {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 15px;
+    width: 70%;
+    /* border: #210347 2px solid; */
+}
+
+#page-wrapper-content-swap {
+    display: flex;
+    /* align-items: center; */
+    /* flex-direction: column; */
+    /* justify-content: space-around; */
+    padding: 10px 15px;
+    width: 70%;
+    /* border: #210347 2px solid;*/
+}
+
+
+#page-wrapper-score {
+    flex: 1;
+    order: 1;
+    justify-content: left;
+}
+
+#page-wrapper-timer {
+    flex: 1;
+    order: 3;
+    justify-content: right;
+}
+
+#page-wrapper-score h2, #page-wrapper-timer h2 {
+    font-size: 1.4rem;
+}
+
+#page-wrapper-quizlet {
+    flex: 2;
+    order: 2;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.55rem;
+}
+
+.page-highscore-form {
+    border: #210347 2px solid;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+}
+
+
+#page-welcome-txt {
+    font-size: 2rem;
+}
+
+
+#page-welcome-txt-btn {
+    font-size: 1.7rem;
+}
+
+
+/* END - Defines styles for main content of the page */
+
+/* START - Defining Buttons styles */
+
+.btn {
+    outline: none;
+    border: none;
+    display: inline-block;
+    padding: 10px 15px;
+    background: var(--tertiary);
+    font-size: 2.2rem;
+    border-radius: 12px;
+    position: relative;
+    top: -3px;
+    box-shadow: 0 3px var(--grey);
+    color: var(--primary);
+    width: 30%;
+    }
+
+.btn-swap {
+    outline: none;
+    border: none;
+    display: block;
+    padding: 10px 15px;
+    background: var(--tertiary);
+    font-size: 1.8rem;
+    border-radius: 12px;
+    position: relative;
+    top: -3px;
+    box-shadow: 0 3px var(--grey);
+    color: var(--primary);
+    text-align: left;
+    width: 100%;
+    /* border: green 10px solid; */
+}
+
+.btn-swap, .btn-swap h2 {
+    /* display: flex;
+    justify-content: left; */
+    padding: 10px 15px;
+    margin-bottom: 20px;
+}
+
+
+.btn:hover, .btn-swap:hover {
+  box-shadow: 0 2px var(--grey);
+  background: var(--pink);
+  top: -2px;
+}
+
+.btn-wrapper-swap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    position: relative;
+
+}
+
+
+
+
+/* END - Defining Buttons styles */
