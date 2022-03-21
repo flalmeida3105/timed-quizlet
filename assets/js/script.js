@@ -11,38 +11,38 @@ var pageFormElement = document.querySelector("#page-welcome-txt-btn");
 var pageHighScoreWrapper = null;
 
 var questionList = [
-    // {
-    //     question: "Which one of the following options it's NOT a JavaScript data type?",
-    //     button1: "1. Number",
-    //     button2: "2. Stream",
-    //     button3: "3. Object",
-    //     button4: "4. Boolean",
-    //     correctAnswer: "2. Stream"
-    // },
-    // {
-    //     question: "What is the escape character used by JavaScript?",
-    //     button1: "1. Backslash",
-    //     button2: "2. Double Quotes",
-    //     button3: "3. Single Quotes",
-    //     button4: "4. Ampersand",
-    //     correctAnswer: "1. Backslash"
-    // },
-    // {
-    //     question: "Which of the following it's a valid JavaScript var declaration?",
-    //     button1: "1. var()",
-    //     button2: "2. 'var=10'",
-    //     button3: "3. var = 10,",
-    //     button4: "4. var = 10;",
-    //     correctAnswer: "4. var = 10;"
-    // },
-    // {
-    //     question: "What does the 'var myArray = [[[]]];' statement declare?",
-    //     button1: "1. An Array",
-    //     button2: "2. An Object Array",
-    //     button3: "3. An Array of Arrays",
-    //     button4: "4. A three-dimensional Array",
-    //     correctAnswer: "4. A three-dimensional Array"
-    // },
+    {
+        question: "Which one of the following options it's NOT a JavaScript data type?",
+        button1: "1. Number",
+        button2: "2. Stream",
+        button3: "3. Object",
+        button4: "4. Boolean",
+        correctAnswer: "2. Stream"
+    },
+    {
+        question: "What is the escape character used by JavaScript?",
+        button1: "1. Backslash",
+        button2: "2. Double Quotes",
+        button3: "3. Single Quotes",
+        button4: "4. Ampersand",
+        correctAnswer: "1. Backslash"
+    },
+    {
+        question: "Which of the following it's a valid JavaScript var declaration?",
+        button1: "1. var()",
+        button2: "2. 'var=10'",
+        button3: "3. var = 10,",
+        button4: "4. var = 10;",
+        correctAnswer: "4. var = 10;"
+    },
+    {
+        question: "What does the 'var myArray = [[[]]];' statement declare?",
+        button1: "1. An Array",
+        button2: "2. An Object Array",
+        button3: "3. An Array of Arrays",
+        button4: "4. A three-dimensional Array",
+        correctAnswer: "4. A three-dimensional Array"
+    },
     {
         question: "Which operations below it's NOT considered a valid loop for JavaScript?",
         button1: "1. For Loop",
@@ -55,9 +55,9 @@ var questionList = [
 //#endregion variables
 
 // Set interval 
-function setTimer (duration, display) {
+function setTimer(duration, display) {
     var timer = duration, minutes, seconds;
-    var interval = setInterval(function() {
+    var interval = setInterval(function () {
         minutes = parseInt(timer / 60);
         seconds = parseInt(timer % 60);
 
@@ -71,11 +71,11 @@ function setTimer (duration, display) {
         display.textContent = minutes + ":" + seconds;
 
         // -- decreases value by one
-        if (--timer < -1 ) {
+        if (--timer < -1) {
             display.textContent = minutes + ":00";
             clearInterval(interval);
-            // alert("Your timer is over! Save your results and compare with your friends");
-            // return viewHighScores(total);
+            alert("Your timer is over! Save your results and compare with your friends");
+            return viewHighScores(total);
         }
     }, 1000);
 
@@ -87,7 +87,7 @@ function createQuestionsElements() {
 
     // create and define div classes name
     var pageWrapperContent = document.createElement("div");
-    pageWrapperContent.className = "page-wrapper-content-swap"; 
+    pageWrapperContent.className = "page-wrapper-content-swap";
     pageWrapperContent.id = 'page-quizlet';
 
     // Creating the H2 element and adding it to the page-wrapper-content
@@ -116,13 +116,13 @@ function createQuestionsElements() {
         pageButtonElement.id = 'btn-' + buttons[i];
         pageButtonElement.type = "click";
         pageButtonElement.addEventListener("click", checkAnswer, pageButtonElement);
-        pageButtonWrapper.appendChild(pageButtonElement);  
+        pageButtonWrapper.appendChild(pageButtonElement);
         pageWrapperContent.appendChild(pageButtonWrapper);
     };
 
     // append all recently created elements to parent element 
     pageDivElement.parentElement.replaceChild(pageWrapperContent, pageDivElement);
-   
+
     return pageWrapperContent;
     //#endregion create elements
 };
@@ -142,17 +142,17 @@ function checkAnswer(questionElement) {
                 console.log("wrong answer")
             }
             createNextQuestion();
-        } 
+        }
     }
     return total;
 
 };
 
-function createNextQuestion(increment = true) {  
+function createNextQuestion(increment = true) {
     // prevents the function to be called without the contents from createQuestionElements()
     if (pageWrapperContent) {
         var content = pageWrapperContent;
-    
+
         // prevents the function from incrementing after clicking on Start Quiz button
         if (increment) {
             currentQuestionIndex++;
@@ -164,7 +164,7 @@ function createNextQuestion(increment = true) {
             var button2 = content.querySelector("#btn-answer2");
             var button3 = content.querySelector("#btn-answer3");
             var button4 = content.querySelector("#btn-answer4");
-            
+
             h2TagContent.textContent = currentQuestion.question;
             button1.innerHTML = currentQuestion.button1;
             button2.innerHTML = currentQuestion.button2;
@@ -172,15 +172,15 @@ function createNextQuestion(increment = true) {
             button4.innerHTML = currentQuestion.button4;
         } else {
             viewHighScores(total);
-            
-        } 
+
+        }
     };
 };
 
-function viewHighScores (value) {
+function viewHighScores(value) {
     var total = value;
     console.log("View High Scores", total);
-    
+
     //#region create elements
 
     // create and define div classes name
@@ -211,8 +211,8 @@ function viewHighScores (value) {
     var pageFormElement = document.createElement("form");
     pageFormElement.style.textAlign = "left";
     pageFormElement.className = "page-highscore-form";
-    
-   // Creating the p tag element and adding it to the page-wrapper-content
+
+    // Creating the p tag element and adding it to the page-wrapper-content
     var pagePTagElement = document.createElement("p");
     pagePTagElement.style.textAlign = "left";
     pagePTagElement.className = "page-welcome-txt";
@@ -235,7 +235,7 @@ function viewHighScores (value) {
     pageBtnElement.id = "page-welcome-txt-btn";
     pageBtnElement.type = "button";
     pageBtnElement.value = "Submit";
-    pageBtnElement.addEventListener("click", saveTasks);
+    pageBtnElement.addEventListener("click", saveScores);
     pageFormElement.appendChild(pageBtnElement)
     pageHighScoreButtonWrapper.appendChild(pageFormElement);
     pageHighScoreWrapper.appendChild(pageHighScoreButtonWrapper);
@@ -247,53 +247,44 @@ function viewHighScores (value) {
     //#endregion create elements
 };
 
-function saveTasks () {
+function saveScores() {
     // var input = value2;
     var inputElement = document.getElementById("page-welcome-input-txt");
     var initials = inputElement.value;
 
     // creating object array 
-    var scoreObj = { 
-            name: initials,
-            score: total
-        }
+    var scoreObj = {
+        name: initials,
+        score: total
+    }
     var scoreJson = JSON.stringify(scoreObj);
     localStorage.setItem("score", scoreJson);
 
     // clearing input form
     inputElement.value = "";
-    
+
 };
 
-function loadTasks () {
-    debugger;
-    var savedTasks = localStorage.getItem("score");
+function loadTasks() {
+    // debugger;
+    var savedScores = localStorage.getItem("score");
     // console.log(savedTasks);
 
-    if (!savedTasks) {
+    if (!savedScores) {
         return false;
     }
-    console.log("Saved tasks found!");
-    savedTasks = JSON.parse(savedTasks);
-    console.log(savedTasks);
-
-    for (var i = 0; i < savedTasks.length; i++) {
-        // savedTasks = JSON.stringify(saveTasks);
-        // localStorage.setItem("score", savedTasks);
-        startQuiz(savedTasks[i]);
-        // console.log(i);
-        // console.log(savedTasks[i])
-    }
-
+    console.log("Saved scores found!");
+    savedScores = JSON.parse(savedScores);
+    console.log(savedScores);
+    highScores = savedScores
 };
 
 
-function startQuiz () {
-    loadTasks();
+function startQuiz() {
 
     var duration = 2 * 1;
     display = document.querySelector('#timer-count');
-    
+
     // total = checkAnswer()
     // console.log("Start Quiz", total)
 
@@ -301,15 +292,13 @@ function startQuiz () {
 
     // send values to setTimer function
     setTimer(duration, display);
-    if (timer < 0 ) return;
+    if (timer < 0) return;
     createNextQuestion(false);
     // viewHighScores(total);
 };
 
 startTimer.addEventListener("click", startQuiz);
 loadTasks();
-
-
 
 
 // End of timer related functions
