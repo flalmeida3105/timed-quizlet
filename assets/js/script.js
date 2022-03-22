@@ -10,6 +10,7 @@ var pageHighScore = null;
 var timer = 0;
 var pageFormElement = document.querySelector("#page-welcome-txt-btn");
 var pageHighScoreWrapper = null;
+var initialsSubmitBtn = null;
 
 var questionList = [
     // {
@@ -85,7 +86,7 @@ function setTimer(duration, display) {
 
 function createQuestionsElements() {
     //#region create elements
-
+    // debugger;
     // create and define div classes name
     var pageWrapperContent = document.createElement("div");
     pageWrapperContent.className = "page-wrapper-content-swap";
@@ -172,13 +173,13 @@ function createNextQuestion(increment = true) {
             button3.innerHTML = currentQuestion.button3;
             button4.innerHTML = currentQuestion.button4;
         } else {
-            viewHighScores(total);
+            createHighScoreElement(total);
 
         }
     };
 };
 
-function viewHighScores(value) {
+function createHighScoreElement(value) {
     var total = value;
     console.log("View High Scores", total);
 
@@ -236,19 +237,74 @@ function viewHighScores(value) {
     pageBtnElement.id = "page-welcome-txt-btn";
     pageBtnElement.type = "button";
     pageBtnElement.value = "Submit";
-    pageBtnElement.addEventListener("click", saveScores);
+    pageBtnElement.addEventListener("click", createHighScoreSummary);
     pageFormElement.appendChild(pageBtnElement);
     pageHighScoreButtonWrapper.appendChild(pageFormElement);
     pageHighScoreWrapper.appendChild(pageHighScoreButtonWrapper);
 
     var pageDivElement = document.querySelector("#page-quizlet");
     pageDivElement.parentElement.replaceChild(pageHighScoreWrapper, pageDivElement);
-
+    
     //#endregion create elements
 };
 
+function createHighScoreSummary() {
+    // create and define div classes name
+    var pageHighScoreSummaryWrapper = document.createElement("div");
+    pageHighScoreSummaryWrapper.className = "page-wrapper-history-summary-swap";
+    pageHighScoreSummaryWrapper.id = "page-wrapper-history-summary-swap";
+
+    // create page buttons
+    var pageHighScoreSummaryButtonWrapper = document.createElement("div");
+    pageHighScoreSummaryButtonWrapper.className = "btn-history-summary-wrapper-swap";
+
+    // Creating the H2 element and adding it to the page-wrapper-content
+    var pageHighScoreSummaryH2TagElement = document.createElement("h2");
+    pageHighScoreSummaryH2TagElement.style.textAlign = "left";
+    pageHighScoreSummaryH2TagElement.className = "page-welcome-txt";
+    pageHighScoreSummaryH2TagElement.textContent = "High Scores!";
+    pageHighScoreSummaryWrapper.appendChild(pageHighScoreSummaryH2TagElement);
+
+    // Creating the p tag element and adding it to the page-wrapper-content
+    var pageHighScoreSummaryInputElement = document.createElement("input");
+    pageHighScoreSummaryInputElement.style.textAlign = "left";
+    pageHighScoreSummaryInputElement.className = "page-welcome-txt";
+    pageHighScoreSummaryInputElement.id = "page-summary-input-txt";
+    pageHighScoreSummaryInputElement.type = "text";
+    pageHighScoreSummaryInputElement.name = "initials";
+    pageHighScoreSummaryWrapper.appendChild(pageHighScoreSummaryInputElement);
+
+    // Creating the input field element and adding it to the page-wrapper-content
+    var pageHighScoreSummaryBtnElement = document.createElement("input");
+    pageHighScoreSummaryBtnElement.className = "page-welcome-txt btn-swap";
+    pageHighScoreSummaryBtnElement.id = "#btn-history-summary-swap1";
+    pageHighScoreSummaryBtnElement.type = "button";
+    pageHighScoreSummaryBtnElement.value = "Go back";
+    pageHighScoreSummaryBtnElement.addEventListener("click", saveScores);
+    pageHighScoreSummaryButtonWrapper.appendChild(pageHighScoreSummaryBtnElement);
+    pageHighScoreSummaryWrapper.appendChild(pageHighScoreSummaryButtonWrapper);
+
+    
+    // Creating the input field element and adding it to the page-wrapper-content
+    var returnPageBtnElement = document.createElement("input");
+    returnPageBtnElement.className = "page-welcome-txt btn-swap";
+    returnPageBtnElement.id = "#btn-history-summary-swap2";
+    returnPageBtnElement.type = "button";
+    returnPageBtnElement.value = "Clear high scores";
+    returnPageBtnElement.addEventListener("click", saveScores);
+    pageHighScoreSummaryButtonWrapper.appendChild(returnPageBtnElement);
+    pageHighScoreSummaryWrapper.appendChild(pageHighScoreSummaryButtonWrapper);
+
+
+    var pageDivElement = document.querySelector("#page-wrapper-content-swap");
+
+    pageDivElement.parentElement.replaceChild(pageHighScoreSummaryWrapper, pageDivElement);
+};
+
+
+
 function saveScores() {
-    debugger;
+    // debugger;
     // getting new input element
     var inputElement = document.getElementById("page-welcome-input-txt");
     var initials = inputElement.value;
@@ -295,59 +351,23 @@ function saveScores() {
 
 
 
-//#region OLD Stuff
-
-
-
-    // // debugger;
-    // // var input = value2;
-    // var inputElement = document.getElementById("page-welcome-input-txt");
-    // var initials = inputElement.value;
-
-    // // creating object array 
-    // var scoreObj = {
-    //     name: initials,
-    //     score: total
-    // }
-    // var scoreJson = JSON.stringify(scoreObj);
-    // localStorage.setItem("score", scoreJson);
-
-    // // clearing input form
-    // inputElement.value = "";
-
-// };
-
-// function loadTasks() {
-//     debugger;
-//     var savedScores = localStorage.getItem("score");
-//     // console.log(savedTasks);
-
-//     if (!savedScores) {
-//         return false;
-//     }
-//     console.log("Saved scores found!");
-//     savedScores = JSON.parse(savedScores);
-//     console.log(savedScores);
-//     highScores = savedScores
-//     viewHighScores(highScores);
-// };
-//#endregion
-
 function startQuiz() {
 
-    var duration = 2 * 1;
-    display = document.querySelector('#timer-count');
+    // var duration = 2 * 1;
+    // display = document.querySelector('#timer-count');
 
-    // total = checkAnswer()
-    // console.log("Start Quiz", total)
+    // // total = checkAnswer()
+    // // console.log("Start Quiz", total)
 
     pageWrapperContent = createQuestionsElements();
 
-    // send values to setTimer function
-    setTimer(duration, display);
-    if (timer < 0) return;
+
+    // // send values to setTimer function
+    // setTimer(duration, display);
+    // if (timer < 0) return;
     createNextQuestion(false);
-    // viewHighScores(total);
+    // pageHighScoreWrapper = createHighScoreSummary();
+    // console.log("jjjj", pageHighScoreWrapper);
 };
 
 // loadTasks();
