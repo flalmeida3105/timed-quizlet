@@ -1,4 +1,5 @@
 //#region variables
+// debugger;
 var startTimer = document.querySelector("#btn");
 var pageDivElement = document.querySelector("#page-quizlet");
 var total = 0;
@@ -9,40 +10,41 @@ var pageHighScore = null;
 var timer = 0;
 var pageFormElement = document.querySelector("#page-welcome-txt-btn");
 var pageHighScoreWrapper = null;
+var initialsSubmitBtn = null;
 
 var questionList = [
-    {
-        question: "Which one of the following options it's NOT a JavaScript data type?",
-        button1: "1. Number",
-        button2: "2. Stream",
-        button3: "3. Object",
-        button4: "4. Boolean",
-        correctAnswer: "2. Stream"
-    },
-    {
-        question: "What is the escape character used by JavaScript?",
-        button1: "1. Backslash",
-        button2: "2. Double Quotes",
-        button3: "3. Single Quotes",
-        button4: "4. Ampersand",
-        correctAnswer: "1. Backslash"
-    },
-    {
-        question: "Which of the following it's a valid JavaScript var declaration?",
-        button1: "1. var()",
-        button2: "2. 'var=10'",
-        button3: "3. var = 10,",
-        button4: "4. var = 10;",
-        correctAnswer: "4. var = 10;"
-    },
-    {
-        question: "What does the 'var myArray = [[[]]];' statement declare?",
-        button1: "1. An Array",
-        button2: "2. An Object Array",
-        button3: "3. An Array of Arrays",
-        button4: "4. A three-dimensional Array",
-        correctAnswer: "4. A three-dimensional Array"
-    },
+    // {
+    //     question: "Which one of the following options it's NOT a JavaScript data type?",
+    //     button1: "1. Number",
+    //     button2: "2. Stream",
+    //     button3: "3. Object",
+    //     button4: "4. Boolean",
+    //     correctAnswer: "2. Stream"
+    // },
+    // {
+    //     question: "What is the escape character used by JavaScript?",
+    //     button1: "1. Backslash",
+    //     button2: "2. Double Quotes",
+    //     button3: "3. Single Quotes",
+    //     button4: "4. Ampersand",
+    //     correctAnswer: "1. Backslash"
+    // },
+    // {
+    //     question: "Which of the following it's a valid JavaScript var declaration?",
+    //     button1: "1. var()",
+    //     button2: "2. 'var=10'",
+    //     button3: "3. var = 10,",
+    //     button4: "4. var = 10;",
+    //     correctAnswer: "4. var = 10;"
+    // },
+    // {
+    //     question: "What does the 'var myArray = [[[]]];' statement declare?",
+    //     button1: "1. An Array",
+    //     button2: "2. An Object Array",
+    //     button3: "3. An Array of Arrays",
+    //     button4: "4. A three-dimensional Array",
+    //     correctAnswer: "4. A three-dimensional Array"
+    // },
     {
         question: "Which operations below it's NOT considered a valid loop for JavaScript?",
         button1: "1. For Loop",
@@ -74,8 +76,8 @@ function setTimer(duration, display) {
         if (--timer < -1) {
             display.textContent = minutes + ":00";
             clearInterval(interval);
-            alert("Your timer is over! Save your results and compare with your friends");
-            return viewHighScores(total);
+            // alert("Your timer is over! Save your results and compare with your friends");
+            // return viewHighScores(total);
         }
     }, 1000);
 
@@ -84,7 +86,7 @@ function setTimer(duration, display) {
 
 function createQuestionsElements() {
     //#region create elements
-
+    // debugger;
     // create and define div classes name
     var pageWrapperContent = document.createElement("div");
     pageWrapperContent.className = "page-wrapper-content-swap";
@@ -171,13 +173,13 @@ function createNextQuestion(increment = true) {
             button3.innerHTML = currentQuestion.button3;
             button4.innerHTML = currentQuestion.button4;
         } else {
-            viewHighScores(total);
+            createHighScoreElement(total);
 
         }
     };
 };
 
-function viewHighScores(value) {
+function createHighScoreElement(value) {
     var total = value;
     console.log("View High Scores", total);
 
@@ -224,7 +226,7 @@ function viewHighScores(value) {
     var pageInputElement = document.createElement("input");
     pageInputElement.style.textAlign = "left";
     pageInputElement.className = "page-welcome-txt";
-    pageInputElement.id = "page-welcome-input-txt";
+    pageInputElement.id = "page-initials-input-txt";
     pageInputElement.type = "text";
     pageInputElement.name = "initials";
     pageFormElement.appendChild(pageInputElement);
@@ -235,70 +237,162 @@ function viewHighScores(value) {
     pageBtnElement.id = "page-welcome-txt-btn";
     pageBtnElement.type = "button";
     pageBtnElement.value = "Submit";
-    pageBtnElement.addEventListener("click", saveScores);
-    pageFormElement.appendChild(pageBtnElement)
+    pageBtnElement.addEventListener("click", submitScores);
+    pageFormElement.appendChild(pageBtnElement);
     pageHighScoreButtonWrapper.appendChild(pageFormElement);
     pageHighScoreWrapper.appendChild(pageHighScoreButtonWrapper);
 
     var pageDivElement = document.querySelector("#page-quizlet");
 
     pageDivElement.parentElement.replaceChild(pageHighScoreWrapper, pageDivElement);
+    console.log("page element", pageDivElement);
 
+    // saveScores();
     //#endregion create elements
 };
 
+function submitScores() {
+    saveScores();
+    createHighScoreSummary();
+};
+
+function createHighScoreSummary() {
+    // debugger;
+    // var content = pageHighScoreWrapper;
+    // console.log(content);
+    // if (!initials) {
+    //     createHighScoreElement();
+    //     var content = document.getElementById("#page-initials-input-txt");
+    //     console.log(content);
+    //     var initials = content.value
+    //     console.log(" gggg", initials);
+
+
+
+    // } else {
+        // create and define div classes name
+        var pageHighScoreSummaryWrapper = document.createElement("div");
+        pageHighScoreSummaryWrapper.className = "page-wrapper-history-summary-swap";
+        pageHighScoreSummaryWrapper.id = "page-wrapper-history-summary-swap";
+
+        // create page buttons
+        var pageHighScoreSummaryButtonWrapper = document.createElement("div");
+        pageHighScoreSummaryButtonWrapper.className = "btn-history-summary-wrapper-swap";
+
+        // Creating the H2 element and adding it to the page-wrapper-content
+        var pageHighScoreSummaryH2TagElement = document.createElement("h2");
+        pageHighScoreSummaryH2TagElement.style.textAlign = "left";
+        pageHighScoreSummaryH2TagElement.className = "page-welcome-txt";
+        pageHighScoreSummaryH2TagElement.textContent = "High Scores!";
+        pageHighScoreSummaryWrapper.appendChild(pageHighScoreSummaryH2TagElement);
+
+        // Creating the p tag element and adding it to the page-wrapper-content
+        var pageHighScoreSummaryInputElement = document.createElement("input");
+        pageHighScoreSummaryInputElement.style.textAlign = "left";
+        pageHighScoreSummaryInputElement.className = "page-welcome-txt";
+        pageHighScoreSummaryInputElement.id = "page-summary-input-txt";
+        pageHighScoreSummaryInputElement.type = "text";
+        pageHighScoreSummaryInputElement.name = "higher-score";
+        pageHighScoreSummaryWrapper.appendChild(pageHighScoreSummaryInputElement);
+
+        // Creating the input field element and adding it to the page-wrapper-content
+        var pageHighScoreSummaryBtnElement = document.createElement("input");
+        pageHighScoreSummaryBtnElement.className = "page-welcome-txt btn-history-swap";
+        pageHighScoreSummaryBtnElement.id = "#btn-history-summary-swap1";
+        pageHighScoreSummaryBtnElement.type = "button";
+        pageHighScoreSummaryBtnElement.value = "Go back";
+        pageHighScoreSummaryBtnElement.addEventListener("click", saveScores);
+        pageHighScoreSummaryButtonWrapper.appendChild(pageHighScoreSummaryBtnElement);
+        pageHighScoreSummaryWrapper.appendChild(pageHighScoreSummaryButtonWrapper);
+
+        
+        // Creating the input field element and adding it to the page-wrapper-content
+        var returnPageBtnElement = document.createElement("input");
+        returnPageBtnElement.className = "page-welcome-txt btn-history-swap";
+        returnPageBtnElement.id = "#btn-history-summary-swap2";
+        returnPageBtnElement.type = "button";
+        returnPageBtnElement.value = "Clear high scores";
+        returnPageBtnElement.addEventListener("click", saveScores);
+        pageHighScoreSummaryButtonWrapper.appendChild(returnPageBtnElement);
+        pageHighScoreSummaryWrapper.appendChild(pageHighScoreSummaryButtonWrapper);
+
+        var pageDivElement = document.querySelector("#page-wrapper-content-swap");
+        pageDivElement.parentElement.replaceChild(pageHighScoreSummaryWrapper, pageDivElement);
+    // }
+    // } else { 
+    //     createHighScoreElement(); 
+    // }    
+};
+
 function saveScores() {
-    // var input = value2;
-    var inputElement = document.getElementById("page-welcome-input-txt");
-    var initials = inputElement.value;
+    // debugger;
+    // getting new input element
+    var inputElement = document.querySelector("#page-initials-input-txt");
+    var initials = inputElement.value;  
 
-    // creating object array 
-    var scoreObj = {
-        name: initials,
-        score: total
+    console.log(initials)
+    // Create the object array to be saved into Local Storage
+    var scoreObj = 
+        {
+            name: initials,
+            score: total
+        }
+    // ];
+
+
+    // trying to get saved scores from local storage
+    var savedScores = localStorage.getItem("score");
+    savedScores = JSON.parse(savedScores);
+    
+    // console.log("1", scoreObj);
+
+    // if there no score saved, create a list with scores, otherwise append
+    if (!savedScores) {
+        savedScores = [scoreObj];
     }
-    var scoreJson = JSON.stringify(scoreObj);
-    localStorage.setItem("score", scoreJson);
+    else {
+        // If saved score exists then add income object
+        savedScores.push( scoreObj );
+        console.log("2", savedScores);
 
+        // append score
+        for (var i = 0; i < savedScores.length; i++) {
+            console.log(i);
+            console.log(savedScores.length);
+            console.log(savedScores[i]);
+            localStorage.setItem("score", JSON.stringify(savedScores[i]));
+        }
+    }
+    // save data to local storage   
+    localStorage.setItem("score", JSON.stringify(savedScores));
+    
     // clearing input form
     inputElement.value = "";
 
 };
 
-function loadTasks() {
-    // debugger;
-    var savedScores = localStorage.getItem("score");
-    // console.log(savedTasks);
-
-    if (!savedScores) {
-        return false;
-    }
-    console.log("Saved scores found!");
-    savedScores = JSON.parse(savedScores);
-    console.log(savedScores);
-    highScores = savedScores
-};
 
 
 function startQuiz() {
 
-    var duration = 2 * 1;
-    display = document.querySelector('#timer-count');
+    // var duration = 2 * 1;
+    // display = document.querySelector('#timer-count');
 
-    // total = checkAnswer()
-    // console.log("Start Quiz", total)
+    // // total = checkAnswer()
+    // // console.log("Start Quiz", total)
 
     pageWrapperContent = createQuestionsElements();
 
-    // send values to setTimer function
-    setTimer(duration, display);
-    if (timer < 0) return;
+
+    // // send values to setTimer function
+    // setTimer(duration, display);
+    // if (timer < 0) return;
     createNextQuestion(false);
-    // viewHighScores(total);
+
 };
 
+// loadTasks();
 startTimer.addEventListener("click", startQuiz);
-loadTasks();
 
 
 // End of timer related functions
