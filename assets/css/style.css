@@ -26,12 +26,12 @@ body {
 header {
     background: var(--primary);
     padding: 2px 25px;
-    border-bottom: 5px solid var(--secondary);
+    /* border-bottom: 5px solid var(--secondary); */
 }
 
-.page-content > * {
+/* .page-content > * {
     border: #210347 2px solid;
-}
+} */
 
 /* START - Defines styles for main content of the page */
 .page-content, .page-wrapper {
@@ -39,7 +39,7 @@ header {
     align-items: flex-start;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    border: #333 4px solid;
+    /* border: #333 4px solid; */
     height: 500px;
     padding: 0 10px;
 }
@@ -103,7 +103,7 @@ header {
 }
 
 .page-highscore-form {
-    border: #210347 2px solid;
+    /* border: #210347 2px solid; */
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -115,6 +115,7 @@ header {
     margin-bottom: 20px;
     height: 25px;
     background-color: #c2b6d2;
+    width: 60%;
 }
 
 #page-welcome-txt {
@@ -159,9 +160,26 @@ header {
     box-shadow: 0 3px var(--grey);
     color: var(--primary);
     text-align: left;
-    /* width: 100%; */
+    width: 100%;
     margin-right: 20px;
     /* border: green 10px solid; */
+}
+
+.btn-history-swap {
+    outline: none;
+    border: none;
+    display: block;
+    padding: 6px 10px;
+    background: var(--tertiary);
+    font-size: 1.8rem;
+    border-radius: 7px;
+    position: relative;
+    top: -3px;
+    box-shadow: 0 3px var(--grey);
+    color: var(--primary);
+    text-align: left;
+    /* width: 100%; */
+    margin-right: 20px;
 }
 
 .btn-swap, .btn-swap h2 {
@@ -177,6 +195,7 @@ header {
   background: var(--pink);
   top: -2px;
 }
+
 
 .btn-wrapper-swap {
     display: flex;
@@ -199,12 +218,17 @@ header {
 }
 
 
-#btn-history-summary-swap1, #btn-history-summary-swap2 {
+#btn-history-summary-swap1 {
     margin-right: 20px;
     font-size: 1.55em;
     width: 100%;
 }
 
+#btn-history-summary-swap2 {
+    margin-right: 20px;
+    font-size: 1.55em;
+    width: 100%;
+}
 
 
 /* END - Defining Buttons styles */
