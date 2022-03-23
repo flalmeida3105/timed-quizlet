@@ -131,6 +131,10 @@ header {
     background-color: rgb(180, 241, 180);
 }
 
+.page-score-text {
+    color: var(--pink);
+}
+
 .pageH2ResponseElement {
     animation: fadeout linear 3s;
     opacity: 0;
