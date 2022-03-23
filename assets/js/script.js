@@ -361,9 +361,6 @@ function saveScores() {
 
         // append score
         for (var i = 0; i < savedScores.length; i++) {
-            console.log(i);
-            console.log(savedScores.length);
-            console.log(savedScores[i]);
             localStorage.setItem("score", JSON.stringify(savedScores[i]));
         }
     }
@@ -384,9 +381,24 @@ function clearScores() {
 };
 
 function restartGame() {
-    window.location = window.location;
-    return false;
+    window.location.reload();
 }
+
+function loadHighScores() {
+    // trying to get saved scores from local storage
+
+    var savedScores = localStorage.getItem("score");
+    savedScores = JSON.parse(savedScores);
+
+    for (player in savedScores) {
+        var loadHighScoresPage = document.querySelector("#page-score-list");
+        var loadHighScoresElement = document.createElement("h2");
+        loadHighScoresElement.className = "page-score-list";
+        loadHighScoresElement.innerHTML = "Name: " + savedScores[player].name + " Score: " + savedScores[player].score;
+        loadHighScoresPage.appendChild(loadHighScoresElement, loadHighScoresPage);
+    };
+    restartGame()
+};
 
 function startQuiz() {
 
