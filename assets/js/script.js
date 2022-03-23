@@ -4,6 +4,7 @@ var startTimer = document.querySelector("#btn");
 var pageDivElement = document.querySelector("#page-quizlet");
 var total = 0;
 const value = 10;
+const valuePenalty = -10
 var currentQuestionIndex = 0;
 var pageWrapperContent = null;
 var pageHighScore = null;
@@ -108,8 +109,8 @@ function setTimer(duration, display) {
         if (--timer < -1) {
             display.textContent = minutes + ":00";
             clearInterval(interval);
-            // alert("Your timer is over! Save your results and compare with your friends");
-            // return viewHighScores(total);
+            alert("Your timer is over! Save your results and compare with your friends");
+            return createHighScoreElement(total);
         }
     }, 1000);
 
@@ -117,8 +118,7 @@ function setTimer(duration, display) {
 };
 
 function createQuestionsElements() {
-    //#region create elements
-    // debugger;
+    // #region create elements
     // create and define div classes name
     var pageWrapperContent = document.createElement("div");
     pageWrapperContent.className = "page-wrapper-content-swap";
@@ -154,6 +154,12 @@ function createQuestionsElements() {
         pageWrapperContent.appendChild(pageButtonWrapper);
     };
 
+    // Creating the H2 element to present answer response to user
+    var pageH2ResponseElement = document.createElement("h2");
+    pageH2ResponseElement.style.textAlign = "left";
+    pageH2ResponseElement.className = "pageH2ResponseElement";
+    pageWrapperContent.appendChild(pageH2ResponseElement);
+
     // append all recently created elements to parent element 
     pageDivElement.parentElement.replaceChild(pageWrapperContent, pageDivElement);
 
@@ -169,13 +175,27 @@ function checkAnswer(questionElement) {
             var currentQuestion = questionList[currentQuestionIndex];
             // ensures the correct answer is selected based on the target innerHTML
             if (currentQuestion.correctAnswer == questionElement.target.innerHTML) {
-                // Increases the value based on the correct answer
+                // Increases the value based on the correct answer and add response to user
                 total += value;
+                var pageDivElement = document.querySelector("#page-quizlet");
+                console.log(pageDivElement);
+                var pageH2ResponseElement = document.querySelector(".pageH2ResponseElement");
+                console.log(pageH2ResponseElement);
+                pageH2ResponseElement.textContent = "Correct";
+                pageH2ResponseElement.style.borderTop = "#959191 5px solid";
+                pageDivElement.appendChild(pageH2ResponseElement, pageDivElement);
                 console.log("correct answer")
             } else {
+                var pageDivElement = document.querySelector("#page-quizlet");
+                console.log(pageDivElement);
+                var pageH2ResponseElement = document.querySelector(".pageH2ResponseElement");
+                console.log(pageH2ResponseElement);
+                pageH2ResponseElement.textContent = "Wrong";
+                pageH2ResponseElement.style.borderTop = "#959191 5px solid";
+                pageDivElement.appendChild(pageH2ResponseElement, pageDivElement);
                 console.log("wrong answer")
             }
-            createNextQuestion();
+            setTimeout(createNextQuestion, 3000);
         }
     }
     return total;
@@ -186,7 +206,7 @@ function createNextQuestion(increment = true) {
     // prevents the function to be called without the contents from createQuestionElements()
     if (pageWrapperContent) {
         var content = pageWrapperContent;
-
+        
         // prevents the function from incrementing after clicking on Start Quiz button
         if (increment) {
             currentQuestionIndex++;
@@ -279,7 +299,6 @@ function createHighScoreElement(value) {
     pageDivElement.parentElement.replaceChild(pageHighScoreWrapper, pageDivElement);
     console.log("page element", pageDivElement);
 
-    // saveScores();
     //#endregion create elements
 };
 
@@ -325,7 +344,6 @@ function createHighScoreSummary() {
     pageHighScoreSummaryButtonWrapper.appendChild(pageHighScoreSummaryBtnElement);
     pageHighScoreSummaryWrapper.appendChild(pageHighScoreSummaryButtonWrapper);
 
-    
     // Creating the input field element and adding it to the page-wrapper-content
     var returnPageBtnElement = document.createElement("input");
     returnPageBtnElement.className = "page-welcome-txt btn-history-swap";
@@ -338,9 +356,6 @@ function createHighScoreSummary() {
 
     var pageDivElement = document.querySelector("#page-wrapper-content-swap");
     pageDivElement.parentElement.replaceChild(pageHighScoreSummaryWrapper, pageDivElement);
- 
-
-    // getMaxValueKey(pageHighScoreSummaryWrapper);
 };
 
 function getMaxValueKey() {
@@ -351,16 +366,12 @@ function getMaxValueKey() {
         var max = Math.max.apply(Math, savedScores.map(function (object) { return object.score; }));
         
         if (savedScores[player].score == max) {
-            var highest = savedScores[player].name + ": " + max;
-        // savedScores[player].name + " Score: " + savedScores[player].score
-        
+            var highest = savedScores[player].name + ": " + max;        
             console.log(highest);
         }
     }
-
     var input = document.querySelector("#page-summary-input-txt");
     input.value = highest;
-    // console.log(presentScore)
 };
 
 
@@ -402,8 +413,7 @@ function saveScores() {
     localStorage.setItem("score", JSON.stringify(savedScores));
     
     // clearing input form
-    inputElement.value = "";
-    
+    inputElement.value = "";  
 };
 
 function clearScores() {
@@ -420,41 +430,33 @@ function restartGame() {
 
 function loadHighScores() {
     // trying to get saved scores from local storage
-
     var savedScores = localStorage.getItem("score");
     savedScores = JSON.parse(savedScores);
 
     savedScores.sort((a, b) => (a.score > b.score) ? -1 : 1 );
     console.log(savedScores);
+
     for (player in savedScores) {
         var loadHighScoresPage = document.querySelector("#page-score-list");
         var loadHighScoresElement = document.createElement("h2");
-        loadHighScoresElement.className = "page-score-list";
+        loadHighScoresElement.className = "page-h2-score-list";
+        loadHighScoresElement.id = "page-h2-score-list-" + player;
         loadHighScoresElement.innerHTML = "Name: " + savedScores[player].name + "<br>" + " Score: " + savedScores[player].score;
         loadHighScoresPage.appendChild(loadHighScoresElement, loadHighScoresPage);
     };
 };
 
 function startQuiz() {
-
-    // var duration = 2 * 1;
-    // display = document.querySelector('#timer-count');
-
-    // // total = checkAnswer()
-    // // console.log("Start Quiz", total)
-
+    var duration = 60 * 1;
+    display = document.querySelector('#timer-count');
     pageWrapperContent = createQuestionsElements();
 
-
-    // // send values to setTimer function
-    // setTimer(duration, display);
-    // if (timer < 0) return;
+    // send values to setTimer function
+    setTimer(duration, display);
+    if (timer < 0) return;
     createNextQuestion(false);
-
 };
 
-// loadTasks();
 startTimer.addEventListener("click", startQuiz);
-
 
 // End of timer related functions
