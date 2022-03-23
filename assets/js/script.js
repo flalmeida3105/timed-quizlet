@@ -4,6 +4,7 @@ var startTimer = document.querySelector("#btn");
 var pageDivElement = document.querySelector("#page-quizlet");
 var total = 0;
 const value = 10;
+const valuePenalty = -10
 var currentQuestionIndex = 0;
 var pageWrapperContent = null;
 var pageHighScore = null;
@@ -52,6 +53,38 @@ var questionList = [
         button3: "3. While/Floor Loop",
         button4: "4. Do/While Loop",
         correctAnswer: "3. While/Floor Loop"
+    },
+    {
+        question: "Which type of JavaScript language is ___?",
+        button1: "1. Object-Oriented",
+        button2: "2. Object-Based",
+        button3: "3. Assembly-language",
+        button4: "4. High-level",
+        correctAnswer: "2. Object-Based"
+    },
+    {
+        question: "Which one of the following also known as Conditional Expression:",
+        button1: "1. Alternative to if-else",
+        button2: "2. Switch statement",
+        button3: "3. If-then-else statement",
+        button4: "4. Immediate if",
+        correctAnswer: "4. Immediate if"
+    },
+    {
+        question: "In JavaScript, what is a block of statement?",
+        button1: "1. Conditional block",
+        button2: "2. Block that combines a number of statements into a single compound statement",
+        button3: "3. Both conditional block and a single statement",
+        button4: "4. Block that contains a single statement",
+        correctAnswer: "2. Block that combines a number of statements into a single compound statement"
+    },
+    {
+        question: "The 'function' and 'var' are known as:",
+        button1: "1. Keywords",
+        button2: "2. Data types",
+        button3: "3. Declaration statements",
+        button4: "4. Prototypes",
+        correctAnswer: "3. Declaration statements"
     }
 ];
 //#endregion variables
@@ -76,8 +109,8 @@ function setTimer(duration, display) {
         if (--timer < -1) {
             display.textContent = minutes + ":00";
             clearInterval(interval);
-            // alert("Your timer is over! Save your results and compare with your friends");
-            // return viewHighScores(total);
+            alert("Your timer is over! Save your results and compare with your friends");
+            return createHighScoreElement(total);
         }
     }, 1000);
 
@@ -85,8 +118,7 @@ function setTimer(duration, display) {
 };
 
 function createQuestionsElements() {
-    //#region create elements
-    // debugger;
+    // #region create elements
     // create and define div classes name
     var pageWrapperContent = document.createElement("div");
     pageWrapperContent.className = "page-wrapper-content-swap";
@@ -122,6 +154,12 @@ function createQuestionsElements() {
         pageWrapperContent.appendChild(pageButtonWrapper);
     };
 
+    // Creating the H2 element to present answer response to user
+    var pageH2ResponseElement = document.createElement("h2");
+    pageH2ResponseElement.style.textAlign = "left";
+    pageH2ResponseElement.className = "pageH2ResponseElement";
+    pageWrapperContent.appendChild(pageH2ResponseElement);
+
     // append all recently created elements to parent element 
     pageDivElement.parentElement.replaceChild(pageWrapperContent, pageDivElement);
 
@@ -137,13 +175,27 @@ function checkAnswer(questionElement) {
             var currentQuestion = questionList[currentQuestionIndex];
             // ensures the correct answer is selected based on the target innerHTML
             if (currentQuestion.correctAnswer == questionElement.target.innerHTML) {
-                // Increases the value based on the correct answer
+                // Increases the value based on the correct answer and add response to user
                 total += value;
+                var pageDivElement = document.querySelector("#page-quizlet");
+                console.log(pageDivElement);
+                var pageH2ResponseElement = document.querySelector(".pageH2ResponseElement");
+                console.log(pageH2ResponseElement);
+                pageH2ResponseElement.textContent = "Correct";
+                pageH2ResponseElement.style.borderTop = "#959191 5px solid";
+                pageDivElement.appendChild(pageH2ResponseElement, pageDivElement);
                 console.log("correct answer")
             } else {
+                var pageDivElement = document.querySelector("#page-quizlet");
+                console.log(pageDivElement);
+                var pageH2ResponseElement = document.querySelector(".pageH2ResponseElement");
+                console.log(pageH2ResponseElement);
+                pageH2ResponseElement.textContent = "Wrong";
+                pageH2ResponseElement.style.borderTop = "#959191 5px solid";
+                pageDivElement.appendChild(pageH2ResponseElement, pageDivElement);
                 console.log("wrong answer")
             }
-            createNextQuestion();
+            setTimeout(createNextQuestion, 3000);
         }
     }
     return total;
@@ -154,7 +206,7 @@ function createNextQuestion(increment = true) {
     // prevents the function to be called without the contents from createQuestionElements()
     if (pageWrapperContent) {
         var content = pageWrapperContent;
-
+        
         // prevents the function from incrementing after clicking on Start Quiz button
         if (increment) {
             currentQuestionIndex++;
@@ -247,7 +299,6 @@ function createHighScoreElement(value) {
     pageDivElement.parentElement.replaceChild(pageHighScoreWrapper, pageDivElement);
     console.log("page element", pageDivElement);
 
-    // saveScores();
     //#endregion create elements
 };
 
@@ -293,7 +344,6 @@ function createHighScoreSummary() {
     pageHighScoreSummaryButtonWrapper.appendChild(pageHighScoreSummaryBtnElement);
     pageHighScoreSummaryWrapper.appendChild(pageHighScoreSummaryButtonWrapper);
 
-    
     // Creating the input field element and adding it to the page-wrapper-content
     var returnPageBtnElement = document.createElement("input");
     returnPageBtnElement.className = "page-welcome-txt btn-history-swap";
@@ -306,29 +356,26 @@ function createHighScoreSummary() {
 
     var pageDivElement = document.querySelector("#page-wrapper-content-swap");
     pageDivElement.parentElement.replaceChild(pageHighScoreSummaryWrapper, pageDivElement);
- 
-
-    // getMaxValueKey(pageHighScoreSummaryWrapper);
 };
 
 function getMaxValueKey() {
     var savedScores = localStorage.getItem("score");
     savedScores = JSON.parse(savedScores);
 
-    for (key in savedScores) {
+    for (player in savedScores) {
         var max = Math.max.apply(Math, savedScores.map(function (object) { return object.score; }));
-        var highest = savedScores[key].name + " " + max;
-        console.log(highest);
+        
+        if (savedScores[player].score == max) {
+            var highest = savedScores[player].name + ": " + max;        
+            console.log(highest);
+        }
     }
-
     var input = document.querySelector("#page-summary-input-txt");
     input.value = highest;
-    // console.log(presentScore)
 };
 
 
 function saveScores() {
-    // debugger;
     // getting new input element
     var inputElement = document.querySelector("#page-initials-input-txt");
     var initials = inputElement.value;  
@@ -337,7 +384,6 @@ function saveScores() {
         alert("This is a required field, ensure to type your initials")
         // return createHighScoreElement();
     } 
-    
     console.log(initials)
     // Create the object array to be saved into Local Storage
     var scoreObj = 
@@ -345,7 +391,6 @@ function saveScores() {
             name: initials,
             score: total
         }
-
     // trying to get saved scores from local storage
     var savedScores = localStorage.getItem("score");
     savedScores = JSON.parse(savedScores);
@@ -361,9 +406,6 @@ function saveScores() {
 
         // append score
         for (var i = 0; i < savedScores.length; i++) {
-            console.log(i);
-            console.log(savedScores.length);
-            console.log(savedScores[i]);
             localStorage.setItem("score", JSON.stringify(savedScores[i]));
         }
     }
@@ -371,8 +413,7 @@ function saveScores() {
     localStorage.setItem("score", JSON.stringify(savedScores));
     
     // clearing input form
-    inputElement.value = "";
-    
+    inputElement.value = "";  
 };
 
 function clearScores() {
@@ -384,30 +425,38 @@ function clearScores() {
 };
 
 function restartGame() {
-    window.location = window.location;
-    return false;
+    window.location.reload();
 }
 
-function startQuiz() {
+function loadHighScores() {
+    // trying to get saved scores from local storage
+    var savedScores = localStorage.getItem("score");
+    savedScores = JSON.parse(savedScores);
 
-    // var duration = 2 * 1;
-    // display = document.querySelector('#timer-count');
+    savedScores.sort((a, b) => (a.score > b.score) ? -1 : 1 );
+    console.log(savedScores);
 
-    // // total = checkAnswer()
-    // // console.log("Start Quiz", total)
-
-    pageWrapperContent = createQuestionsElements();
-
-
-    // // send values to setTimer function
-    // setTimer(duration, display);
-    // if (timer < 0) return;
-    createNextQuestion(false);
-
+    for (player in savedScores) {
+        var loadHighScoresPage = document.querySelector("#page-score-list");
+        var loadHighScoresElement = document.createElement("h2");
+        loadHighScoresElement.className = "page-h2-score-list";
+        loadHighScoresElement.id = "page-h2-score-list-" + player;
+        loadHighScoresElement.innerHTML = "Name: " + savedScores[player].name + "<br>" + " Score: " + savedScores[player].score;
+        loadHighScoresPage.appendChild(loadHighScoresElement, loadHighScoresPage);
+    };
 };
 
-// loadTasks();
-startTimer.addEventListener("click", startQuiz);
+function startQuiz() {
+    var duration = 60 * 1;
+    display = document.querySelector('#timer-count');
+    pageWrapperContent = createQuestionsElements();
 
+    // send values to setTimer function
+    setTimer(duration, display);
+    if (timer < 0) return;
+    createNextQuestion(false);
+};
+
+startTimer.addEventListener("click", startQuiz);
 
 // End of timer related functions
