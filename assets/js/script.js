@@ -52,6 +52,38 @@ var questionList = [
         button3: "3. While/Floor Loop",
         button4: "4. Do/While Loop",
         correctAnswer: "3. While/Floor Loop"
+    },
+    {
+        question: "Which type of JavaScript language is ___?",
+        button1: "1. Object-Oriented",
+        button2: "2. Object-Based",
+        button3: "3. Assembly-language",
+        button4: "4. High-level",
+        correctAnswer: "2. Object-Based"
+    },
+    {
+        question: "Which one of the following also known as Conditional Expression:",
+        button1: "1. Alternative to if-else",
+        button2: "2. Switch statement",
+        button3: "3. If-then-else statement",
+        button4: "4. Immediate if",
+        correctAnswer: "4. Immediate if"
+    },
+    {
+        question: "In JavaScript, what is a block of statement?",
+        button1: "1. Conditional block",
+        button2: "2. Block that combines a number of statements into a single compound statement",
+        button3: "3. Both conditional block and a single statement",
+        button4: "4. Block that contains a single statement",
+        correctAnswer: "2. Block that combines a number of statements into a single compound statement"
+    },
+    {
+        question: "The 'function' and 'var' are known as:",
+        button1: "1. Keywords",
+        button2: "2. Data types",
+        button3: "3. Declaration statements",
+        button4: "4. Prototypes",
+        correctAnswer: "3. Declaration statements"
     }
 ];
 //#endregion variables
@@ -315,10 +347,15 @@ function getMaxValueKey() {
     var savedScores = localStorage.getItem("score");
     savedScores = JSON.parse(savedScores);
 
-    for (key in savedScores) {
+    for (player in savedScores) {
         var max = Math.max.apply(Math, savedScores.map(function (object) { return object.score; }));
-        var highest = savedScores[key].name + " " + max;
-        console.log(highest);
+        
+        if (savedScores[player].score == max) {
+            var highest = savedScores[player].name + ": " + max;
+        // savedScores[player].name + " Score: " + savedScores[player].score
+        
+            console.log(highest);
+        }
     }
 
     var input = document.querySelector("#page-summary-input-txt");
@@ -328,7 +365,6 @@ function getMaxValueKey() {
 
 
 function saveScores() {
-    // debugger;
     // getting new input element
     var inputElement = document.querySelector("#page-initials-input-txt");
     var initials = inputElement.value;  
@@ -337,7 +373,6 @@ function saveScores() {
         alert("This is a required field, ensure to type your initials")
         // return createHighScoreElement();
     } 
-    
     console.log(initials)
     // Create the object array to be saved into Local Storage
     var scoreObj = 
@@ -345,7 +380,6 @@ function saveScores() {
             name: initials,
             score: total
         }
-
     // trying to get saved scores from local storage
     var savedScores = localStorage.getItem("score");
     savedScores = JSON.parse(savedScores);
@@ -390,14 +424,15 @@ function loadHighScores() {
     var savedScores = localStorage.getItem("score");
     savedScores = JSON.parse(savedScores);
 
+    savedScores.sort((a, b) => (a.score > b.score) ? -1 : 1 );
+    console.log(savedScores);
     for (player in savedScores) {
         var loadHighScoresPage = document.querySelector("#page-score-list");
         var loadHighScoresElement = document.createElement("h2");
         loadHighScoresElement.className = "page-score-list";
-        loadHighScoresElement.innerHTML = "Name: " + savedScores[player].name + " Score: " + savedScores[player].score;
+        loadHighScoresElement.innerHTML = "Name: " + savedScores[player].name + "<br>" + " Score: " + savedScores[player].score;
         loadHighScoresPage.appendChild(loadHighScoresElement, loadHighScoresPage);
     };
-    restartGame()
 };
 
 function startQuiz() {
